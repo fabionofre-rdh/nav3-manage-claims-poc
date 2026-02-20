@@ -1,0 +1,23 @@
+[
+  {
+    "createdAt": "2026-02-20T13:41:14.677Z",
+    "lastUpdatedAt": "2026-02-20T13:41:14.677Z",
+    "id": "a1b2c3d4-0005-0005-0005-000000000005",
+    "planName": "HOS Plan A",
+    "status": "active"
+  },
+  {
+    "createdAt": "2026-02-20T13:41:14.677Z",
+    "lastUpdatedAt": "2026-02-20T13:41:14.677Z",
+    "id": "b2c3d4e5-0005-0005-0005-000000000005",
+    "planName": "HOS Plan B",
+    "status": "active"
+  },
+  {
+    "createdAt": "2026-02-20T13:41:14.677Z",
+    "lastUpdatedAt": "2026-02-20T13:41:14.677Z",
+    "id": "c3d4e5f6-0005-0005-0005-000000000005",
+    "planName": "HOS Plan C",
+    "status": "active"
+  }
+]

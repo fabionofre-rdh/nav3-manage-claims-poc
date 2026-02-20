@@ -1,0 +1,23 @@
+[
+  {
+    "createdAt": "2026-02-20T14:42:39.547Z",
+    "lastUpdatedAt": "2026-02-20T14:42:39.547Z",
+    "id": "a1b2c3d4-0001-0001-0001-000000000001",
+    "statusName": "Pending Review",
+    "status": "active"
+  },
+  {
+    "createdAt": "2026-02-20T14:42:39.547Z",
+    "lastUpdatedAt": "2026-02-20T14:42:39.547Z",
+    "id": "b2c3d4e5-0001-0001-0001-000000000001",
+    "statusName": "Approved",
+    "status": "active"
+  },
+  {
+    "createdAt": "2026-02-20T14:42:39.547Z",
+    "lastUpdatedAt": "2026-02-20T14:42:39.547Z",
+    "id": "c3d4e5f6-0001-0001-0001-000000000001",
+    "statusName": "Denied",
+    "status": "active"
+  }
+]

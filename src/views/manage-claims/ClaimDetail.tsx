@@ -14,18 +14,20 @@ import {
   PiLockSimpleDuotone,
   PiMagnifyingGlassDuotone,
 } from "react-icons/pi";
-import type { Claim } from "./types";
-import { fetchClaimById, updateClaim } from "./services";
+import type { Claim, User, Team, EdcPlan, HosPlan, Group, ClaimStatus } from "./types";
+import { fetchClaimById, fetchUsers, fetchTeams, fetchEdcPlans, fetchHosPlans, fetchGroups, fetchStatuses, updateClaim } from "./services";
 
 const ReadOnlyField = ({
   label,
   value,
   editing,
+  hideLock,
   onChange,
 }: {
   label: string;
   value: string;
   editing?: boolean;
+  hideLock?: boolean;
   onChange?: (value: string) => void;
 }) => (
   <div className="flex items-center gap-2 py-2 border-b border-gray-100">
@@ -39,7 +41,7 @@ const ReadOnlyField = ({
       />
     ) : (
       <span className="flex-1 text-sm flex items-center gap-1">
-        <PiLockSimpleDuotone className="text-gray-400 text-xs flex-shrink-0" />
+        {!hideLock && <PiLockSimpleDuotone className="text-gray-400 text-xs flex-shrink-0" />}
         {value ? (
           <span className="text-gray-900">{value}</span>
         ) : (
@@ -76,16 +78,14 @@ const LookupField = ({
       <span className="text-gray-500 text-sm min-w-[160px]">{label}</span>
       {editing ? (
         <div className="flex-1">
-          <Select<{ value: string; label: string }, true>
-            isMulti
+          <Select<{ value: string; label: string }, false>
             isSearchable
             size="sm"
             placeholder={`Select ${label}...`}
             options={options}
-            value={selectedOptions}
-            onChange={(opts) => {
-              const selected = opts as { value: string; label: string }[];
-              onChange?.(selected.map((o) => o.value).join(", "));
+            value={selectedOptions[0] ?? null}
+            onChange={(opt) => {
+              onChange?.((opt as { value: string; label: string } | null)?.value ?? "");
             }}
           />
         </div>
@@ -207,14 +207,56 @@ const ClaimDetail = () => {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [userOptions, setUserOptions] = useState<{ value: string; label: string }[]>([]);
+  const [teamOptions, setTeamOptions] = useState<{ value: string; label: string }[]>([]);
+  const [edcPlanOptions, setEdcPlanOptions] = useState<{ value: string; label: string }[]>([]);
+  const [hosPlanOptions, setHosPlanOptions] = useState<{ value: string; label: string }[]>([]);
+  const [groupOptions, setGroupOptions] = useState<{ value: string; label: string }[]>([]);
+  const [statusOptions, setStatusOptions] = useState<{ value: string; label: string }[]>([]);
 
   useEffect(() => {
     const loadClaim = async () => {
       if (!claimId) return;
       setLoading(true);
-      const found = await fetchClaimById(claimId);
+      const [found, users, teams, edcPlans, hosPlans, groups, statuses] = await Promise.all([
+        fetchClaimById(claimId),
+        fetchUsers(),
+        fetchTeams(),
+        fetchEdcPlans(),
+        fetchHosPlans(),
+        fetchGroups(),
+        fetchStatuses(),
+      ]);
       setClaim(found);
       setEditData(found);
+      setUserOptions(
+        users
+          .filter((u: User) => u.status === "active")
+          .map((u: User) => ({ value: u.id, label: u.userName }))
+      );
+      setTeamOptions(
+        teams
+          .filter((t: Team) => t.teamStatus === "active")
+          .map((t: Team) => ({ value: t.id, label: t.teamName }))
+      );
+      setEdcPlanOptions(
+        edcPlans
+          .filter((p: EdcPlan) => p.status === "active")
+          .map((p: EdcPlan) => ({ value: p.id, label: p.planName }))
+      );
+      setHosPlanOptions(
+        hosPlans
+          .filter((p: HosPlan) => p.status === "active")
+          .map((p: HosPlan) => ({ value: p.id, label: p.planName }))
+      );
+      setGroupOptions(
+        groups.map((g: Group) => ({ value: g.id, label: g.groupName }))
+      );
+      setStatusOptions(
+        statuses
+          .filter((s: ClaimStatus) => s.status === "active")
+          .map((s: ClaimStatus) => ({ value: s.id, label: s.statusName }))
+      );
       setLoading(false);
     };
     loadClaim();
@@ -372,17 +414,21 @@ const ClaimDetail = () => {
                     />
                   </div>
 
-                  {/* Group ID — patchable as groupId */}
+                  {/* Group Name — patchable as groupId */}
+                  <LookupField
+                    label="Group Name"
+                    value={editing ? (data.groupId ?? "") : data.group}
+                    editing={editing}
+                    options={groupOptions}
+                    onChange={(v) => {
+                      const label = groupOptions.find((o) => o.value === v)?.label ?? v;
+                      updateFields({ group: label, groupId: v });
+                    }}
+                  />
+                  {/* Group ID — read-only */}
                   <ReadOnlyField
                     label="Group ID"
                     value={data.groupId ?? ""}
-                    editing={editing}
-                    onChange={(v) => updateField("groupId", v)}
-                  />
-                  {/* Group Name — not in PATCH */}
-                  <ReadOnlyField
-                    label="Group Name"
-                    value={data.group}
                     editing={false}
                   />
                   {/* Days Old Since Received — always read-only (calculated) */}
@@ -408,29 +454,35 @@ const ClaimDetail = () => {
                   {/* Claim Status — patchable as currentStatusId */}
                   <LookupField
                     label="Claim Status"
-                    value={data.currentStatus}
+                    value={editing ? (data.currentStatusId ?? "") : data.currentStatus}
                     editing={editing}
-                    onChange={(v) =>
-                      updateFields({ currentStatus: v, currentStatusId: v })
-                    }
+                    options={statusOptions}
+                    onChange={(v) => {
+                      const label = statusOptions.find((o) => o.value === v)?.label ?? v;
+                      updateFields({ currentStatus: label, currentStatusId: v });
+                    }}
                   />
                   {/* Assigned To — patchable as assignedToId */}
                   <LookupField
                     label="Assigned To"
-                    value={data.assignedTo}
+                    value={editing ? (data.assignedToId ?? "") : data.assignedTo}
                     editing={editing}
-                    onChange={(v) =>
-                      updateFields({ assignedTo: v, assignedToId: v })
-                    }
+                    options={userOptions}
+                    onChange={(v) => {
+                      const label = userOptions.find((o) => o.value === v)?.label ?? v;
+                      updateFields({ assignedTo: label, assignedToId: v });
+                    }}
                   />
                   {/* Team — patchable as assignedTeamId */}
                   <LookupField
                     label="Team"
-                    value={data.assignedTeam}
+                    value={editing ? (data.assignedTeamId ?? "") : data.assignedTeam}
                     editing={editing}
-                    onChange={(v) =>
-                      updateFields({ assignedTeam: v, assignedTeamId: v })
-                    }
+                    options={teamOptions}
+                    onChange={(v) => {
+                      const label = teamOptions.find((o) => o.value === v)?.label ?? v;
+                      updateFields({ assignedTeam: label, assignedTeamId: v });
+                    }}
                   />
                   {/* Related Claim — not in PATCH */}
                   <LookupField
@@ -496,20 +548,24 @@ const ClaimDetail = () => {
                   {/* EDC Plan — patchable as ecdPlanId */}
                   <LookupField
                     label="EDC Plan Effective at DOS"
-                    value={data.ecdPlan}
+                    value={editing ? (data.ecdPlanId ?? "") : data.ecdPlan}
                     editing={editing}
-                    onChange={(v) =>
-                      updateFields({ ecdPlan: v, ecdPlanId: v })
-                    }
+                    options={edcPlanOptions}
+                    onChange={(v) => {
+                      const label = edcPlanOptions.find((o) => o.value === v)?.label ?? v;
+                      updateFields({ ecdPlan: label, ecdPlanId: v });
+                    }}
                   />
                   {/* HOS Plan — patchable as hosPlanId */}
                   <LookupField
                     label="HOS Plan Effective at DOS"
-                    value={data.hosPlan}
+                    value={editing ? (data.hosPlanId ?? "") : data.hosPlan}
                     editing={editing}
-                    onChange={(v) =>
-                      updateFields({ hosPlan: v, hosPlanId: v })
-                    }
+                    options={hosPlanOptions}
+                    onChange={(v) => {
+                      const label = hosPlanOptions.find((o) => o.value === v)?.label ?? v;
+                      updateFields({ hosPlan: label, hosPlanId: v });
+                    }}
                   />
                   {/* SKU — not in PATCH */}
                   <LookupField

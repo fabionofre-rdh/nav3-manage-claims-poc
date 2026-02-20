@@ -1,8 +1,38 @@
 import { http, HttpResponse } from "msw";
 import appConfig from "@/configs/app.config";
 import claimsMock from "./mockData/claimsMock.json";
+import usersMock from "./mockData/usersMock.json";
+import teamsMock from "./mockData/teamsMock.json";
+import edcPlansMock from "./mockData/edcPlansMock.json";
+import hosPlansMock from "./mockData/hosPlansMock.json";
+import groupsMock from "./mockData/groupsMock.json";
+import statusesMock from "./mockData/statusesMock.json";
 
 export const handlers = [
+  http.get(`${appConfig.apiBase}/claimDataTemp/users`, () => {
+    return HttpResponse.json(usersMock);
+  }),
+
+  http.get(`${appConfig.apiBase}/claimDataTemp/teams`, () => {
+    return HttpResponse.json(teamsMock);
+  }),
+
+  http.get(`${appConfig.apiBase}/claimDataTemp/edc-plans`, () => {
+    return HttpResponse.json(edcPlansMock);
+  }),
+
+  http.get(`${appConfig.apiBase}/claimDataTemp/hos-plans`, () => {
+    return HttpResponse.json(hosPlansMock);
+  }),
+
+  http.get(`${appConfig.apiBase}/claimDataTemp/groups`, () => {
+    return HttpResponse.json(groupsMock);
+  }),
+
+  http.get(`${appConfig.apiBase}/claimDataTemp/statuses`, () => {
+    return HttpResponse.json(statusesMock);
+  }),
+
   http.get(`${appConfig.apiBase}/claimDataTemp/claims`, () => {
     return HttpResponse.json(claimsMock);
   }),

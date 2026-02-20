@@ -1,4 +1,4 @@
-import type { Claim, ClaimRawResponse, ClaimUpdateRawResponse } from "./types";
+import type { Claim, ClaimRawResponse, ClaimUpdateRawResponse, User, Team, EdcPlan, HosPlan, Group, ClaimStatus } from "./types";
 import api from "@/services/api/axios";
 
 function mapToClaim(raw: ClaimRawResponse): Claim {
@@ -71,6 +71,36 @@ function mapToClaimUpdate(raw: ClaimUpdateRawResponse): Pick<Claim, "id" | "clai
     provider: raw.provider.providerName,
     providerId: raw.provider.id,
   };
+}
+
+export async function fetchUsers(): Promise<User[]> {
+  const { data } = await api.get<User[]>("claimDataTemp/users");
+  return data;
+}
+
+export async function fetchTeams(): Promise<Team[]> {
+  const { data } = await api.get<Team[]>("claimDataTemp/teams");
+  return data;
+}
+
+export async function fetchEdcPlans(): Promise<EdcPlan[]> {
+  const { data } = await api.get<EdcPlan[]>("claimDataTemp/edc-plans");
+  return data;
+}
+
+export async function fetchHosPlans(): Promise<HosPlan[]> {
+  const { data } = await api.get<HosPlan[]>("claimDataTemp/hos-plans");
+  return data;
+}
+
+export async function fetchGroups(): Promise<Group[]> {
+  const { data } = await api.get<Group[]>("claimDataTemp/groups");
+  return data;
+}
+
+export async function fetchStatuses(): Promise<ClaimStatus[]> {
+  const { data } = await api.get<ClaimStatus[]>("claimDataTemp/statuses");
+  return data;
 }
 
 export async function updateClaim(id: string, payload: Partial<Claim>) {

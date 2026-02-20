@@ -44,6 +44,53 @@ export type Claim = {
   possibleDuplicate?: string;
 };
 
+export type User = {
+  id: string;
+  userName: string;
+  status: string;
+  createdAt: string;
+  lastUpdatedAt: string;
+};
+
+export type Team = {
+  id: string;
+  teamName: string;
+  teamStatus: string;
+  createdAt: string;
+  lastUpdatedAt: string;
+};
+
+export type EdcPlan = {
+  id: string;
+  planName: string;
+  status: string;
+  createdAt: string;
+  lastUpdatedAt: string;
+};
+
+export type HosPlan = {
+  id: string;
+  planName: string;
+  status: string;
+  createdAt: string;
+  lastUpdatedAt: string;
+};
+
+export type Group = {
+  id: string;
+  groupName: string;
+  createdAt: string;
+  lastUpdatedAt: string;
+};
+
+export type ClaimStatus = {
+  id: string;
+  statusName: string;
+  status: string;
+  createdAt: string;
+  lastUpdatedAt: string;
+};
+
 export type ClaimUpdateRawResponse = Omit<
   ClaimRawResponse,
   "member" | "family" | "completedBy" | "completedDate" | "claimsBucket"
@@ -56,29 +103,14 @@ export type ClaimRawResponse = {
     id: string;
     statusName: string;
   };
-  assignedTo: {
-    id: string;
-    userName: string;
-  };
-  assignedTeam: {
-    id: string;
-    teamName: string;
-  };
+  assignedTo: User;
+  assignedTeam: Team;
   serviceDate: string;
   serviceDateEnd: string;
-  ecdPlan: {
-    id: string;
-    planName: string;
-  };
-  hosPlan: {
-    id: string;
-    planName: string;
-  };
+  ecdPlan: EdcPlan,
+  hosPlan: HosPlan,
   cptCodes: string;
-  group: {
-    id: string;
-    groupName: string;
-  };
+  group: Group;
   dcn: string;
   provider: {
     id: string;
