@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  # ===========================================================================
+  # DEV Environment
+  # ===========================================================================
+  rdh-ai-agent-react-webapp-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BUILD_MODE: dev
+    container_name: rdh-ai-agent-react-webapp-dev
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.dev
+    restart: unless-stopped
+
+  # ===========================================================================
+  # STAGING Environment
+  # ===========================================================================
+  rdh-ai-agent-react-webapp-staging:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BUILD_MODE: staging
+    container_name: rdh-ai-agent-react-webapp-staging
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.staging
+    restart: unless-stopped
+
+  # ===========================================================================
+  # PRODUCTION Environment
+  # ===========================================================================
+  rdh-ai-agent-react-webapp-production:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BUILD_MODE: production
+    container_name: rdh-ai-agent-react-webapp-production
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.production
+    restart: unless-stopped

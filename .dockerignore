@@ -1,0 +1,49 @@
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Build outputs (we build inside Docker)
+build
+dist
+
+# Test & Coverage
+coverage
+playwright-report
+test-results
+*.test.*
+*.spec.*
+
+# IDE and Editor
+.idea
+.vscode
+*.swp
+*.swo
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation
+*.md
+!README.md
+
+# CI/CD
+.github
+
+# Debug files
+debug-*.png
+
+# Playwright
+playwright
+playwright.config.ts
+
+# Development config
+ecosystem.*.config.cjs
+
+# Husky
+.husky

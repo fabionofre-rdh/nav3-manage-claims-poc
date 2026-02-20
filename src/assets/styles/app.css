@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+@import "./components/index.css";
+@import "./template/index.css";
+@import "./vendors/index.css";
+@import "./tailwind/index.css";
+
+/* Opportunity Ribbon Styles */
+.year-box{ padding: 4px; width: 62px; height: 62px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin: 0 auto;
+    i { color: white; font-size: 20px; }
+}
+.ribbon {
+  position: relative;
+  text-transform: uppercase;
+  color: white;
+}
+
+.ribbon-content {
+  width: 40px;
+  padding: 10px 0;
+  position: absolute;
+  top: 15px;
+  height: 90px;
+  left: 11px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ribbon-content:after {
+  content: "";
+  position: absolute;
+  height: 0;
+  width: 0;
+  bottom: -19.5px;
+  left: 0;
+  border-bottom: 20px solid transparent;
+}
+
+.blue-box .ribbon-content {
+  background-color: #1875bb !important;
+}
+
+.green-box .ribbon-content {
+  background-color: #31924e !important;
+}
+
+.orange-box .ribbon-content {
+  background-color: #d8870f !important;
+}
+
+.blue-box .ribbon-content:after {
+  border-left: 20px solid #1875bb;
+  border-right: 20px solid #1875bb;
+}
+
+.green-box .ribbon-content:after {
+  border-left: 20px solid #31924e;
+  border-right: 20px solid #31924e;
+}
+
+.orange-box .ribbon-content:after {
+  border-left: 20px solid #d8870f;
+  border-right: 20px solid #d8870f;
+}
+
+.label-ribbon {
+  transform: rotate(-90deg);
+  display: inline-block;
+  font-weight: 600;
+  font-size: 16px;
+}

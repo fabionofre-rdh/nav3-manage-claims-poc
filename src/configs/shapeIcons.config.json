@@ -1,0 +1,21 @@
+{
+  "Square": "FaSquare",
+  "Circle": "FaCircle",
+  "Flag": "FaFlag",
+  "Heart": "FaHeart",
+  "Vision": "FaLowVision",
+  "Deaf": "FaDeaf",
+  "Calendar": "FaCalendar",
+  "Physically Challenged": "FaWheelchair",
+  "Child": "FaChild",
+  "Tag": "FaTag",
+  "Check": "FaCheck",
+  "Check Circle": "FaCheckCircle",
+  "Ban": "FaBan",
+  "Bell": "FaBell",
+  "Bullseye": "FaBullseye",
+  "Star": "FaStar",
+  "Thumbs-up": "FaThumbsUp",
+  "Thumbs-down": "FaThumbsDown",
+  "Trophy": "FaTrophy"
+}

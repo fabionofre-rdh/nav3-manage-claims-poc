@@ -1,0 +1,76 @@
+.client-stepper {
+  @apply flex items-stretch w-full;
+  gap: 0px;
+}
+
+.client-step {
+  @apply relative py-3 text-sm font-semibold text-gray-500 bg-gray-100 whitespace-nowrap;
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%, 20px 50%);
+  transition: all 0.2s ease;
+  margin-left: -18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 30px;
+  padding-right: 20px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* First step - no left chevron */
+.client-step:first-child {
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%);
+  border-top-left-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+  margin-left: 0px !important;
+  padding-left: 20px !important;
+}
+.client-step:nth-child(2) {
+  margin-left: -17px !important;
+}
+
+/* Last step - no right chevron */
+.client-step:last-child {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 20px 50%);
+  border-top-right-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+}
+
+/* Last step if also first */
+.client-step:first-child:last-child {
+  clip-path: none;
+}
+
+/* Active (orange) */
+.client-step--active {
+  @apply text-white bg-[#d8870f];
+}
+
+/* Completed (green) */
+.client-step--complete {
+  @apply text-white bg-[#42b564];
+}
+
+/* Error (red) */
+.client-step--error {
+  @apply text-white bg-[#dc3545];
+}
+
+/* Disabled (gray) */
+.client-step--disabled {
+  @apply text-gray-400 bg-gray-100 cursor-not-allowed;
+}
+
+/* Hover effect */
+.client-step:hover:not(.client-step--disabled) {
+  @apply opacity-90 cursor-pointer;
+}
+
+.client-step__label {
+  @apply block relative;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+

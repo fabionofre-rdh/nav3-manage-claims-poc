@@ -1,0 +1,70 @@
+import { useState, Suspense, lazy } from "react";
+import classNames from "classnames";
+import Drawer from "@/components/ui/Drawer";
+import NavToggle from "@/components/shared/NavToggle";
+import { DIR_RTL } from "@/constants/theme.constant";
+import withHeaderItem, { WithHeaderItemProps } from "@/utils/hoc/withHeaderItem";
+import navigationConfig from "@/configs/navigation.config";
+import appConfig from "@/configs/app.config";
+import { useSelector } from "react-redux";
+import { AppState } from "@/redux/store";
+
+const VerticalMenuContent = lazy(() => import("@/components/template/VerticalMenuContent"));
+
+type MobileNavToggleProps = {
+  toggled?: boolean;
+};
+
+type MobileNavProps = {
+  translationSetup?: boolean;
+};
+
+const MobileNavToggle = withHeaderItem<MobileNavToggleProps & WithHeaderItemProps>(NavToggle);
+
+const MobileNav = ({ translationSetup = appConfig.activeNavTranslation }: MobileNavProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenDrawer = () => {
+    setIsOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setIsOpen(false);
+  };
+
+  const direction = useSelector((state: AppState) => state.theme.direction);
+  const currentRouteKey = useSelector((state: AppState) => state.routeKey.currentRouteKey);
+
+  return (
+    <>
+      <div className="text-2xl" onClick={handleOpenDrawer}>
+        <MobileNavToggle toggled={isOpen} />
+      </div>
+      <Drawer
+        title="Navigation"
+        isOpen={isOpen}
+        bodyClass={classNames("p-0")}
+        width={330}
+        placement={direction === DIR_RTL ? "right" : "left"}
+        onClose={handleDrawerClose}
+        onRequestClose={handleDrawerClose}
+      >
+        <Suspense fallback={<></>}>
+          {isOpen && (
+            <VerticalMenuContent
+              collapsed={false}
+              navigationTree={navigationConfig}
+              routeKey={currentRouteKey}
+              userAuthority={[]}
+              direction={direction}
+              translationSetup={translationSetup}
+              onMenuItemClick={handleDrawerClose}
+            />
+          )}
+        </Suspense>
+      </Drawer>
+    </>
+  );
+};
+
+export default MobileNav;

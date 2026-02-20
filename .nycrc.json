@@ -1,0 +1,26 @@
+{
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "all": true,
+  "extension": [".ts", ".tsx"],
+  "exclude": [
+    "**/*.d.ts",
+    "node_modules",
+    "test/",
+    "src/components/*",
+    "src/@types/*",
+    "src/api/*",
+    "src/assets/*",
+    "src/auth/*",
+    "src/configs/*",
+    "src/constants/*",
+    "src/locales/*",
+    "src/mock/*",
+    "src/mocks/*",
+    "src/redux/*",
+    "src/utils/*",
+    "src/services/*"
+  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "reporter": ["text", "html", "lcov", "json-summary", "clover"],
+  "report-dir": "playwright-report"
+}
