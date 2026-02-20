@@ -37,7 +37,7 @@ jobs:
           VITE_API_BASE: https://staging.api.nav.redirecthealth.com
           VITE_MSAL_CLIENT_ID: 95fc333a-4590-4882-82bb-714f668c2495
           VITE_MSAL_AUTHORITY_ID: https://login.microsoftonline.com/9c1e074e-3b6a-4b53-a7df-d0ec753ac9b7
-          VITE_MSAL_REDIRECT_URI: http://localhost:3000
+          VITE_MSAL_REDIRECT_URI: https://zealous-pond-0ce30361e.1.azurestaticapps.net
           VITE_LEGACY_API_BASE: https://beta.v2.rdhnav.com
           VITE_AI_AGENT_API_BASE: https://api-staging.aiagent.rdhnav.com
 
