@@ -57,7 +57,7 @@ export const handlers = [
       );
     }
     const body = await request.json() as Record<string, unknown>;
-    const { member: _m, family: _f, completedBy: _cb, completedDate: _cd, claimsBucket: _bk, ...claimFields } = claim;
+    const { ...claimFields } = claim;
     const updated = { ...claimFields, ...body, lastUpdatedAt: new Date().toISOString() };
     return HttpResponse.json({ data: updated, statusCode: 200, message: "Claim updated successfully" });
   }),

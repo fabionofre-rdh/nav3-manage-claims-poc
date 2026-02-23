@@ -441,7 +441,7 @@ const ClaimDetail = () => {
                   <DateField
                     label="Date Received"
                     sublabel="MM/DD/YYYY"
-                    value={data.dateReceived ?? ""}
+                    value={data.dateReceived}
                     editing={false}
                   />
                   {/* DCN — patchable */}
@@ -570,7 +570,7 @@ const ClaimDetail = () => {
                   {/* SKU — not in PATCH */}
                   <LookupField
                     label="SKU"
-                    value={data.sku ?? ""}
+                    value={data.sku}
                     editing={false}
                   />
                   {/* Plan info — always read-only */}

@@ -20,25 +20,25 @@ export type Claim = {
   provider: string;
   providerId?: string;
   memberId: string;
+  familyId: string;
   firstName: string;
   lastName: string;
   navDob: string;
   dateMemberMoopMet: string;
   notes: string;
-  familyId: string;
   dateFamilyMoopMet: string;
   familyNotes: string;
   completedBy: string;
   completedDate: string;
   claimsBucket: string;
-  sku?: string;
+  sku: string;
+  dateReceived: string;
   planStartDate?: string;
   planName?: string;
   planCode?: string;
   originalEffectiveDate?: string;
   memberEndDate?: string;
   daysOldSinceReceived?: string;
-  dateReceived?: string;
   relatedClaim?: string;
   noPaymentReason?: string;
   possibleDuplicate?: string;
@@ -93,7 +93,7 @@ export type ClaimStatus = {
 
 export type ClaimUpdateRawResponse = Omit<
   ClaimRawResponse,
-  "member" | "family" | "completedBy" | "completedDate" | "claimsBucket"
+  "member" | "claimBucket" | "completedDate" | "receivedDate" | "sku"
 >;
 
 export type ClaimRawResponse = {
@@ -107,8 +107,8 @@ export type ClaimRawResponse = {
   assignedTeam: Team;
   serviceDate: string;
   serviceDateEnd: string;
-  ecdPlan: EdcPlan,
-  hosPlan: HosPlan,
+  ecdPlan: EdcPlan;
+  hosPlan: HosPlan;
   cptCodes: string;
   group: Group;
   dcn: string;
@@ -118,22 +118,17 @@ export type ClaimRawResponse = {
   };
   member: {
     memberId: string;
-    firstName: string;
-    lastName: string;
-    navDob: string;
-    dateMemberMoopMet: string;
-    notes: string;
-  };
-  family: {
     familyId: string;
-    dateFamilyMoopMet: string;
-    familyNotes: string;
+    memberFirstName: string;
+    memberLastName: string;
+    memberDOB: string;
   };
-  completedBy: {
-    teamName: string;
+  claimBucket: {
+    id: string;
+    name: string;
+    status: string;
   };
   completedDate: string;
-  claimsBucket: {
-    bucketName: string;
-  };
+  receivedDate: string;
+  sku: string;
 };
