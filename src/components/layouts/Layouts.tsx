@@ -25,10 +25,8 @@ const Layout = ({ children }: CommonProps) => {
         </div>
       }
     >
-      {inProgress && inProgress !== InteractionStatus.None ? null : isAuthenticated ? (
+      {inProgress && inProgress !== InteractionStatus.None ? null : (
         <PostLoginLayout layoutType={layoutType}>{children}</PostLoginLayout>
-      ) : (
-        <PreLoginLayout>{children}</PreLoginLayout>
       )}
     </Suspense>
   );

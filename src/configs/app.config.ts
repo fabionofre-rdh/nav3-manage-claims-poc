@@ -21,8 +21,8 @@ export type AppConfig = {
 
 const appConfig: AppConfig = {
   apiPrefix: "/api",
-  authenticatedEntryPath: "/home",
-  unAuthenticatedEntryPath: "/sign-in",
+  authenticatedEntryPath: "/manage-claims",
+  unAuthenticatedEntryPath: "/manage-claims",
   locale: "en",
   accessTokenPersistStrategy: "localStorage",
   enableMock: true,

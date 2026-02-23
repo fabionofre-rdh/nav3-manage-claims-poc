@@ -42,7 +42,11 @@ const AllRoutes = (props: AllRoutesProps) => {
           <Route
             key={route.path}
             path={route.path}
-            element={<AppRoute routeKey={route.key} component={route.component} {...route.meta} />}
+            element={
+              <PageContainer {...props} {...route.meta}>
+                <AppRoute routeKey={route.key} component={route.component} {...route.meta} />
+              </PageContainer>
+            }
           />
         ))}
       </Route>
