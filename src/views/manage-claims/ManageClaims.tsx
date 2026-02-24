@@ -80,6 +80,8 @@ const ManageClaims = () => {
   const [claims, setClaims] = useState<Claim[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedRows, setSelectedRows] = useState<Claim[]>([]);
+  const [pageSize, setPageSize] = useState(50);
+  const [pageIndex, setPageIndex] = useState(1);
   const columns = getColumns(navigate);
 
   useEffect(() => {
@@ -116,14 +118,16 @@ const ManageClaims = () => {
           <DataTable<Claim>
             selectable
             columns={columns}
-            data={claims}
+            data={claims.slice((pageIndex - 1) * pageSize, pageIndex * pageSize)}
             loading={loading}
             onCheckBoxChange={handleCheckBoxChange}
             onIndeterminateCheckBoxChange={handleIndeterminateCheckBoxChange}
+            onSelectChange={(val) => { setPageSize(val); setPageIndex(1); }}
+            onPaginationChange={(page) => setPageIndex(page)}
             pagingData={{
               total: claims.length,
-              pageIndex: 1,
-              pageSize: 50,
+              pageIndex,
+              pageSize,
             }}
             stickyHeader
             maxHeight="calc(100vh - 220px)"

@@ -25,7 +25,7 @@ const appConfig: AppConfig = {
   unAuthenticatedEntryPath: "/manage-claims",
   locale: "en",
   accessTokenPersistStrategy: "localStorage",
-  enableMock: true,
+  enableMock: false,
   activeNavTranslation: false,
   nodeEnv: import.meta.env.VITE_NODE_ENV,
   apiBase: import.meta.env.VITE_API_BASE,

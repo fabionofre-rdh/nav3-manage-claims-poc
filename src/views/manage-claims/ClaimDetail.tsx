@@ -2,14 +2,15 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container } from "@/components/shared";
 import Card from "@/components/ui/Card";
-import Tabs from "@/components/ui/Tabs";
 import Tag from "@/components/ui/Tag";
+import Tabs from "@/components/ui/Tabs";
 import Button from "@/components/ui/Button";
 import Spinner from "@/components/ui/Spinner";
 import Input from "@/components/ui/Input";
 import DatePicker from "@/components/ui/DatePicker";
 import Select from "@/components/ui/Select";
 import { HiOutlineArrowLeft, HiOutlinePencil, HiChevronDown } from "react-icons/hi";
+import { toast, Notification } from "@/components/ui";
 import {
   PiLockSimpleDuotone,
   PiMagnifyingGlassDuotone,
@@ -65,13 +66,9 @@ const LookupField = ({
   options?: { value: string; label: string }[];
   onChange?: (value: string) => void;
 }) => {
-  const selectedValues = value
-    ? value.split(",").map((v) => v.trim()).filter(Boolean)
-    : [];
-
-  const selectedOptions = selectedValues.map(
-    (v) => options?.find((o) => o.value === v) ?? { value: v, label: v }
-  );
+  const selectedOption = value
+    ? (options?.find((o) => o.value === value) ?? { value, label: value })
+    : null;
 
   return (
     <div className="flex items-center gap-2 py-2 border-b border-gray-100">
@@ -83,7 +80,7 @@ const LookupField = ({
             size="sm"
             placeholder={`Select ${label}...`}
             options={options}
-            value={selectedOptions[0] ?? null}
+            value={selectedOption}
             onChange={(opt) => {
               onChange?.((opt as { value: string; label: string } | null)?.value ?? "");
             }}
@@ -91,19 +88,11 @@ const LookupField = ({
         </div>
       ) : (
         <>
-          <div className="flex-1 flex flex-wrap gap-1">
-            {selectedValues.length > 0 ? (
-              selectedValues.map((v) => (
-                <Tag
-                  key={v}
-                  className="inline-flex items-center gap-1 !bg-blue-50 !text-blue-700 !border-blue-200"
-                >
-                  {selectedOptions.find((o) => o.value === v)?.label ?? v}
-                  <span className="cursor-pointer text-blue-400 hover:text-blue-600 ml-1">
-                    &times;
-                  </span>
-                </Tag>
-              ))
+          <div className="flex-1">
+            {selectedOption ? (
+              <Tag className="inline-flex items-center gap-1 !bg-blue-50 !text-blue-700 !border-blue-200">
+                {selectedOption.label}
+              </Tag>
             ) : (
               <span className="text-gray-400 text-sm">---</span>
             )}
@@ -276,9 +265,22 @@ const ClaimDetail = () => {
     if (!claimId || !editData) return;
     setIsSaving(true);
     try {
-      const updated = await updateClaim(claimId, editData);
+      const updated = await updateClaim(editData.id, editData);
       setClaim((prev) => (prev ? { ...prev, ...updated } : prev));
       setEditing(false);
+      toast.push(
+        <Notification title="Success" type="success">
+          Claim updated successfully.
+        </Notification>,
+        { placement: "top-end" }
+      );
+    } catch {
+      toast.push(
+        <Notification title="Error" type="danger">
+          Failed to update the claim. Please try again.
+        </Notification>,
+        { placement: "top-end" }
+      );
     } finally {
       setIsSaving(false);
     }

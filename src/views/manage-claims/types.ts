@@ -31,6 +31,7 @@ export type Claim = {
   completedBy: string;
   completedDate: string;
   claimsBucket: string;
+  claimsBucketId?: string;
   sku: string;
   dateReceived: string;
   planStartDate?: string;

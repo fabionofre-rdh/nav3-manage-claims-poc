@@ -48,7 +48,7 @@ export const handlers = [
     return HttpResponse.json({ data: claim, statusCode: 200, message: "Success" });
   }),
 
-  http.patch(`${appConfig.apiBase}/claimDataTemp/claims/by-claim/:id`, async ({ params, request }) => {
+  http.patch(`${appConfig.apiBase}/claimDataTemp/claims/:id`, async ({ params, request }) => {
     const claim = claimsMock.data.find((c) => c.claimId === params.id);
     if (!claim) {
       return HttpResponse.json(
