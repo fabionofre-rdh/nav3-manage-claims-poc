@@ -33,12 +33,7 @@ jobs:
           output_location: "build" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env:
-          VITE_NODE_ENV: staging
           VITE_API_BASE: https://beta.api.rdhnav.com/claims/api
-          VITE_MSAL_CLIENT_ID: 95fc333a-4590-4882-82bb-714f668c2495
-          VITE_MSAL_AUTHORITY_ID: https://login.microsoftonline.com/9c1e074e-3b6a-4b53-a7df-d0ec753ac9b7
-          VITE_MSAL_REDIRECT_URI: https://zealous-pond-0ce30361e.1.azurestaticapps.net
-
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
