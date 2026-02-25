@@ -41,7 +41,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/claims/api": {
+      "/api": {
         target: "https://beta.api.rdhnav.com",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, "/claims/api/claimDataTemp"),
