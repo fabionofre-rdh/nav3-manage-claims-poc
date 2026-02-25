@@ -40,8 +40,13 @@ export default defineConfig({
     },
   },
   server: {
-    host: "localhost",
-    port: 3000,
+    proxy: {
+      "/claims/api": {
+        target: "https://beta.api.rdhnav.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, "/claims/api/claimDataTemp"),
+      },
+    },
   },
   build: {
     outDir: "build",
